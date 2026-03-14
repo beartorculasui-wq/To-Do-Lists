@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teacher Evaluation</title>
+  <title>Teacher Evaluation Form</title>
 
   <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
@@ -17,7 +17,7 @@
   <div class="card shadow-sm mx-auto" style="max-width: 400px;">
     <div class="card-body text-center">
       <img src="icon-512.png" class="img-fluid rounded-circle w-25 h-25 " alt="Responsive image">
-      <h3 class="mb-4">Teacher Evaluation</h3>
+      <h3 class="mb-4">Teacher Evaluation Form</h3>
 
       <input type="text" id="teacher" class="form-control mb-3" placeholder="Teacher Name">
       <input type="number" id="score" class="form-control mb-3" placeholder="Student Score">
@@ -35,9 +35,9 @@ function evaluateTeacher() {
   const score = Number(document.getElementById("score").value);
 
   if (score >= 50) {
-    document.getElementById("result").textContent = ${teacher}: Mayu gd!;
+    document.getElementById("result").textContent = ${teacher}: submit;
   } else {
-    document.getElementById("result").textContent = ${teacher}: law-law!;
+    document.getElementById("result").textContent = ${teacher}: ok;
   }
 }
 
