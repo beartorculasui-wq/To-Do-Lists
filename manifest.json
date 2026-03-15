@@ -1,5 +1,5 @@
 {
-  "name": "EduPlanner",
+  "name": "To-do-list",
   "short_name": "to-do",
   "start_url": "./index.html",
   "display": "standalone",
