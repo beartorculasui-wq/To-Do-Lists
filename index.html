@@ -1,142 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> To-Do-Lists</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="icon" href="icon-512.png" />
-    <meta name="theme-color" content="#9ACD32" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks List</title>
     <style>
-      body {
-        background-color: #9ACD32; 
-        min-height: 100vh;
-      }
-      .card {
-        border: none;
-        border-radius: 15px;
-        background-color: #8FBC8F;
-      }
-      .app-logo {
-        width: 70px;
-        border-radius: 15px;
-        margin-bottom: 10px;
-      }
-      h2 {
-        color: #2F4F2F;
-      }
-      .form-control {
-        background-color: #9ACD32;
-        border-color: #556B2F; 
-        color: #2F4F2F;
-      }
-      .form-control::placeholder {
-        color: #556B2F;
-      }
-      .form-control:focus {
-        background-color: #9ACD32;
-        border-color: #2F4F2F;
-        color: #2F4F2F;
-        box-shadow: 0 0 0 0.2rem rgba(47, 79, 47, 0.25);
-      }
-      .btn-primary { 
-        background-color: #0D6EFD; 
-        border-color: #0D6EFD;
-      }
-      .btn-primary:hover {
-        background-color: #0A58CA; 
-        border-color: #0A58CA;
-      }
-      .list-group-item {
-        background-color: #9ACD32; 
-        border-color: #556B2F !important;
-        color: #2F4F2F;
-      }
-      .list-group-item .form-check-input {
-        border-color: #2F4F2F;
-        background-color: transparent;
-        cursor: pointer;
-      }
-      .list-group-item .form-check-input:checked {
-        background-color: #2F4F2F;
-        border-color: #2F4F2F;
-      }
-      .list-group-item .form-check-input:focus {
-        box-shadow: 0 0 0 0.2rem rgba(47, 79, 47, 0.25);
-      }
-      .task-done span {
-        text-decoration: line-through;
-        color: #556B2F;
-      }
-      .btn-danger { 
-        color: #FFFFFF;
-        background-color: #DC3545; 
-        border-color: #DC3545;
-      }
-      .btn-danger:hover {
-        background-color: #BB2D3B; 
-        border-color: #BB2D3B;
-        color: #FFFFFF;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
-          <div id="todo-container" class="card shadow p-4">
-            <div class="text-center mb-3">
-              <img src="icon-512.png" class="app-logo" alt="logo" />
-              <h2> To-Do-Lists</h2>
-            </div>
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                id="taskInput"
-                class="form-control"
-                placeholder="Add a new task..."
-              />
-              <button class="btn btn-primary" onclick="addTask()">Add</button> <!-- Updated button class -->
-            </div>
-            <ul id="taskList" class="list-group"></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      const taskList = document.getElementById("taskList");
-      function addTask() {
-        const input = document.getElementById("taskInput");
-        const task = input.value.trim();
-        if (task) {
-          const li = document.createElement("li");
-          li.className =
-            "list-group-item d-flex justify-content-between align-items-center mb-2 rounded shadow-sm border";
-          li.innerHTML = `
-            <div class="d-flex align-items-center gap-2">
-              <input type="checkbox" class="form-check-input" onchange="toggleDone(this)" />
-              <span>${task}</span>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="this.closest('li').remove()">Delete</button> <!-- Updated button class -->
-          `;
-          taskList.appendChild(li);
-          input.value = "";
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
-      }
-      function toggleDone(checkbox) {
-        checkbox.closest("li").classList.toggle("task-done", checkbox.checked);
-      }
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("/service-worker.js")
-          .then(() => {
-            console.log("ayos! rehistro as service worker");
-          })
-          .catch((error) => {
-            console.log("Registration failed: ", error);
-          });
-      }
+        body {
+            background-color: #00FF00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #FFFFFF;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        .input-section {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.5rem;
+        }
+        #taskInput {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #CCCCCC;
+            border-right: none;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            font-size: 1rem;
+        }
+        #taskInput::placeholder {
+            color: #999999;
+        }
+        #addBtn {
+            background-color: #0066FF;
+            color: #FFFFFF;
+            border: none;
+            padding: 0 1.2rem;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+            margin-bottom: 0.8rem;
+            background-color: #FFFFFF;
+        }
+        .task-text {
+            font-size: 1rem;
+            color: #000000;
+        }
+        .deleteBtn {
+            background-color: transparent;
+            color: #FF0000;
+            border: 1px solid #FF0000;
+            padding: 0.4rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tasks List</h1>
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <button id="addBtn">Add</button>
+        </div>
+        <div id="tasksContainer"></div>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const tasksContainer = document.getElementById('tasksContainer');
+
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.forEach(task => addTaskToDOM(task));
+        }
+
+        function addTaskToDOM(taskText) {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `
+                <span class="task-text">${taskText}</span>
+                <button class="deleteBtn">Delete</button>
+            `;
+            
+            const deleteBtn = taskItem.querySelector('.deleteBtn');
+            deleteBtn.addEventListener('click', () => {
+                taskItem.remove();
+                saveTasks();
+            });
+
+            tasksContainer.appendChild(taskItem);
+        }
+
+        function saveTasks() {
+            const tasks = [];
+            document.querySelectorAll('.task-text').forEach(element => tasks.push(element.textContent));
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        addBtn.addEventListener('click', () => {
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                addTaskToDOM(taskText);
+                taskInput.value = '';
+                saveTasks();
+            }
+        });
+
+        taskInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') addBtn.click();
+        });
+
+        window.addEventListener('load', loadTasks);
     </script>
-  </body>
+</body>
 </html>
