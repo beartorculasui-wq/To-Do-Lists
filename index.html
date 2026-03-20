@@ -26,6 +26,8 @@
             border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: visible;
         }
         h1 {
             text-align: center;
@@ -37,15 +39,17 @@
             display: flex;
             gap: 0;
             margin-bottom: 1.5rem;
+            width: 100%;
+            position: relative;
         }
         #taskInput {
             flex: 1;
             padding: 0.8rem 1rem;
             border: 1px solid #CCCCCC;
-            border-right: none;
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             font-size: 1rem;
+            width: calc(100% - 80px);
         }
         #taskInput::placeholder {
             color: #999999;
@@ -54,12 +58,14 @@
             background-color: #0066FF;
             color: #FFFFFF;
             border: none;
-            padding: 0 1.2rem;
+            padding: 0.8rem 1.2rem;
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
+            flex-shrink: 0;
+            width: 80px;
         }
         .task-item {
             display: flex;
@@ -129,17 +135,19 @@
             localStorage.setItem('tasks', JSON.stringify(tasks));
         }
 
-        addBtn.addEventListener('click', () => {
+        function handleAddTask() {
             const taskText = taskInput.value.trim();
             if (taskText) {
                 addTaskToDOM(taskText);
                 taskInput.value = '';
                 saveTasks();
             }
-        });
+        }
+
+        addBtn.addEventListener('click', handleAddTask);
 
         taskInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') addBtn.click();
+            if (event.key === 'Enter') handleAddTask();
         });
 
         window.addEventListener('load', loadTasks);
