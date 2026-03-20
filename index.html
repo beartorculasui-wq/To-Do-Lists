@@ -1,297 +1,142 @@
 <!DOCTYPE html>
-<html>
-<head>
-
-<title>EduPlanner</title>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<link rel="manifest" href="manifest.json">
-
-<style>
-
-body{
-font-family:Arial;
-background:#eef2f7;
-display:flex;
-justify-content:center;
-margin-top:30px;
-}
-
-.container{
-width:340px;
-background:white;
-border-radius:15px;
-padding:20px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-h2{
-text-align:center;
-margin-bottom:5px;
-}
-
-.subtitle{
-text-align:center;
-font-size:12px;
-color:gray;
-margin-bottom:10px;
-}
-
-.menu{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-}
-
-.menu button{
-flex:1;
-margin:3px;
-padding:10px;
-border:none;
-background:#4a90e2;
-color:white;
-border-radius:10px;
-cursor:pointer;
-font-size:14px;
-}
-
-.screen{
-display:none;
-}
-
-.active{
-display:block;
-}
-
-.task{
-background:#e6f0ff;
-margin:5px;
-padding:8px;
-border-radius:8px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-input{
-width:90%;
-padding:7px;
-margin-top:8px;
-}
-
-.addBtn{
-margin-top:8px;
-padding:8px;
-background:#27ae60;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-.dark{
-background:#1e1e1e;
-color:white;
-}
-
-.dark .container{
-background:#2c2c2c;
-}
-
-.dark .task{
-background:#3a3a3a;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h2>📚 EduPlanner</h2>
-<p class="subtitle">Student Daily Planner</p>
-
-<div class="menu">
-
-<button onclick="showScreen('schedule')">📅</button>
-<button onclick="showScreen('tasks')">✅</button>
-<button onclick="showScreen('notes')">📝</button>
-<button onclick="showScreen('settings')">⚙️</button>
-
-</div>
-
-<!-- Schedule -->
-
-<div id="schedule" class="screen active">
-
-<h3>Today's Schedule</h3>
-
-<p>8:00 AM -HC1-2</p>
-<p>9:00 AM - Appdev</p>
-<p>10:30 AM - History</p>
-
-</div>
-
-<!-- Tasks -->
-
-<div id="tasks" class="screen">
-
-<h3>Tasks</h3>
-
-<div id="taskList"></div>
-
-<input id="taskInput" placeholder="Enter task">
-
-<br>
-
-<button class="addBtn" onclick="addTask()">Add Task</button>
-
-</div>
-
-<!-- Notes -->
-
-<div id="notes" class="screen">
-
-<h3>Notes</h3>
-
-<p>Study Tip: Review your notes every night.</p>
-<p>Appsec: javascript lesson.</p>
-
-</div>
-
-<!-- Settings -->
-
-<div id="settings" class="screen">
-
-<h3>Settings</h3>
-
-<button class="addBtn" onclick="toggleDark()">🌙 Dark Mode</button>
-
-<br><br>
-
-<button class="addBtn" onclick="clearTasks()">🧹 Clear Tasks</button>
-
-<p style="font-size:12px;margin-top:15px;">EduPlanner v1.0</p>
-
-</div>
-
-</div>
-
-<script>
-
-function showScreen(screen){
-
-let screens=document.querySelectorAll(".screen");
-
-screens.forEach(s=>s.classList.remove("active"));
-
-document.getElementById(screen).classList.add("active");
-
-}
-
-let tasks=[];
-
-function addTask(){
-
-let input=document.getElementById("taskInput");
-
-let task=input.value;
-
-if(task==="") return;
-
-tasks.push(task);
-
-localStorage.setItem("tasks",JSON.stringify(tasks));
-
-input.value="";
-
-displayTasks();
-
-}
-
-function deleteTask(index){
-
-tasks.splice(index,1);
-
-localStorage.setItem("tasks",JSON.stringify(tasks));
-
-displayTasks();
-
-}
-
-function displayTasks(){
-
-let list=document.getElementById("taskList");
-
-list.innerHTML="";
-
-tasks.forEach((task,index)=>{
-
-let div=document.createElement("div");
-
-div.className="task";
-
-div.innerHTML=task+" <button onclick='deleteTask("+index+")'>X</button>";
-
-list.appendChild(div);
-
-});
-
-}
-
-function loadTasks(){
-
-let saved=localStorage.getItem("tasks");
-
-if(saved){
-
-tasks=JSON.parse(saved);
-
-}
-
-displayTasks();
-
-}
-
-function clearTasks(){
-
-if(confirm("Delete all tasks?")){
-
-tasks=[];
-
-localStorage.removeItem("tasks");
-
-displayTasks();
-
-}
-
-}
-
-function toggleDark(){
-
-document.body.classList.toggle("dark");
-
-}
-
-loadTasks();
-
-</script>
-
-<script>
-
-if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("service-worker.js")
-.then(function(){
-console.log("Service Worker Registered");
-});
-
-}
-
-</script>
-
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> To-Do-Lists</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon-512.png" />
+    <meta name="theme-color" content="#9ACD32" />
+    <style>
+      body {
+        background-color: #9ACD32; 
+        min-height: 100vh;
+      }
+      .card {
+        border: none;
+        border-radius: 15px;
+        background-color: #8FBC8F;
+      }
+      .app-logo {
+        width: 70px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+      }
+      h2 {
+        color: #2F4F2F;
+      }
+      .form-control {
+        background-color: #9ACD32;
+        border-color: #556B2F; 
+        color: #2F4F2F;
+      }
+      .form-control::placeholder {
+        color: #556B2F;
+      }
+      .form-control:focus {
+        background-color: #9ACD32;
+        border-color: #2F4F2F;
+        color: #2F4F2F;
+        box-shadow: 0 0 0 0.2rem rgba(47, 79, 47, 0.25);
+      }
+      .btn-primary { 
+        background-color: #0D6EFD; 
+        border-color: #0D6EFD;
+      }
+      .btn-primary:hover {
+        background-color: #0A58CA; 
+        border-color: #0A58CA;
+      }
+      .list-group-item {
+        background-color: #9ACD32; 
+        border-color: #556B2F !important;
+        color: #2F4F2F;
+      }
+      .list-group-item .form-check-input {
+        border-color: #2F4F2F;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .list-group-item .form-check-input:checked {
+        background-color: #2F4F2F;
+        border-color: #2F4F2F;
+      }
+      .list-group-item .form-check-input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(47, 79, 47, 0.25);
+      }
+      .task-done span {
+        text-decoration: line-through;
+        color: #556B2F;
+      }
+      .btn-danger { 
+        color: #FFFFFF;
+        background-color: #DC3545; 
+        border-color: #DC3545;
+      }
+      .btn-danger:hover {
+        background-color: #BB2D3B; 
+        border-color: #BB2D3B;
+        color: #FFFFFF;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+          <div id="todo-container" class="card shadow p-4">
+            <div class="text-center mb-3">
+              <img src="icon-512.png" class="app-logo" alt="logo" />
+              <h2> To-Do-Lists</h2>
+            </div>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                id="taskInput"
+                class="form-control"
+                placeholder="Add a new task..."
+              />
+              <button class="btn btn-primary" onclick="addTask()">Add</button> <!-- Updated button class -->
+            </div>
+            <ul id="taskList" class="list-group"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const taskList = document.getElementById("taskList");
+      function addTask() {
+        const input = document.getElementById("taskInput");
+        const task = input.value.trim();
+        if (task) {
+          const li = document.createElement("li");
+          li.className =
+            "list-group-item d-flex justify-content-between align-items-center mb-2 rounded shadow-sm border";
+          li.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+              <input type="checkbox" class="form-check-input" onchange="toggleDone(this)" />
+              <span>${task}</span>
+            </div>
+            <button class="btn btn-danger btn-sm" onclick="this.closest('li').remove()">Delete</button> <!-- Updated button class -->
+          `;
+          taskList.appendChild(li);
+          input.value = "";
+        }
+      }
+      function toggleDone(checkbox) {
+        checkbox.closest("li").classList.toggle("task-done", checkbox.checked);
+      }
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then(() => {
+            console.log("ayos! rehistro as service worker");
+          })
+          .catch((error) => {
+            console.log("Registration failed: ", error);
+          });
+      }
+    </script>
+  </body>
 </html>
