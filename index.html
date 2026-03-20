@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks List</title>
+    <title>To-Do-Lists</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon-512.png" type="image/png">
+    <meta name="theme-color" content="#00FF00">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Tasks List">
     <style>
         * {
             margin: 0;
@@ -90,22 +96,38 @@
             cursor: pointer;
             font-size: 0.9rem;
         }
+        #installBtn {
+            display: none;
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            background-color: #0066FF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Tasks List</h1>
+        <h1>To-Do-Lists</h1>
         <div class="input-section">
             <input type="text" id="taskInput" placeholder="Add a new task...">
             <button id="addBtn">Add</button>
         </div>
         <div id="tasksContainer"></div>
+        <button id="installBtn">Install Tasks List</button>
     </div>
 
     <script>
         const taskInput = document.getElementById('taskInput');
         const addBtn = document.getElementById('addBtn');
         const tasksContainer = document.getElementById('tasksContainer');
+        const installBtn = document.getElementById('installBtn');
+        let deferredPrompt;
 
         function loadTasks() {
             const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -151,6 +173,33 @@
         });
 
         window.addEventListener('load', loadTasks);
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+
+            installBtn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                });
+            }, { once: true });
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(() => console.log('Service Worker registered'))
+                    .catch(error => console.log('Service Worker error:', error));
+            });
+        }
     </script>
 </body>
 </html>
